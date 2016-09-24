@@ -1,31 +1,6 @@
-class Vehicle{
-     constructor(licenseNum){
-          this.licenseNum = licenseNum;
-          this.gpsEnabled = true;
-     }
-}
+import {Car} from './classes/car.js';
+import {Drone} from './classes/drone.js';
 
-class Drone extends Vehicle{
-     //constructor(id, name){
-     //   this._id = id;
-     //   this._name = name;      
-     //   }
-     //   fly(){
-     //       console.log("Drone " + this.id + " is flying");    
-     //   }
-        //get id(){
-        //        return this._id + " TEMPORARY";        
-        //}
-        //set id(){
-        //       this._id = value; 
-        //}
-        //get name(){
-        //       return this._name + " TEMPORARY";   
-        //}
-        //set name(){
-        //      this._name = value;   
-        //}
-}
 
 //Drone.maxHeight = 2000;
 //
@@ -42,14 +17,14 @@ class Drone extends Vehicle{
 //drone.fly();
 //drone2.fly();
 
-class Car extends Vehicle{
-     constructor(licenseNum){
-          super(licenseNum);
-          this.gpsEnabled = false;
-     }     
-}
+
 
 let c = new Car('A123');
+let drone = new Drone('A123', 'Flyer');
+
+console.log("ID: " + drone.id + " is called " + drone.name);
 
 console.log(c.licenseNum);
 console.log(c.gpsEnabled);
+
+Car.getCompanyName();
