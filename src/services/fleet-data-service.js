@@ -30,6 +30,26 @@ export class FleetDataService {
         return this.cars.filter(car => car.make.indexOf(filter) >= 0);
     }
     
+    getDroneByLicense(license) {
+        return this.drones.find(function(drone) {
+            return drone.license === license;
+        });
+    }
+    
+    getDronesSortedByLicense() {
+        return this.drones.sort(function(drone1, drone2) {
+            if (drone1.license < drone2.license)
+                return -1;
+            if (drone1.license > drone2.license)
+                return 1;
+            return 0;
+        });
+    }
+    
+    filterDronesByBase(filter) {
+        return this.drones.filter(drone => drone.base.indexOf(filter) >= 0);
+    } 
+    
     loadData(fleet) {
         for (let data of fleet) {
             switch(data.type) {
@@ -45,7 +65,15 @@ export class FleetDataService {
                     }
                     break;
                 case 'drone':
-                    this.drones.push(data);
+                    if (this.validateDroneData(data)) {
+                        let drone = this.loadDrone(data);
+                        if (drone) 
+                            this.drones.push(drone);
+                    }
+                    else {
+                        let e = new DataError('invalid drone data', data);
+                        this.errors.push(e);
+                    }
                     break;
                 default:
                     let e = new DataError('Invalid vehicle type', data);
@@ -83,4 +111,33 @@ export class FleetDataService {
         }
         return !hasErrors;
     }
+    
+    loadDrone(drone) {
+        try {
+            let d = new Drone(drone.license, drone.model, drone.latLong);
+            d.airTimeHours = drone.airTimeHours;
+            d.base = drone.base;
+            return d;
+        } catch(e) {
+            this.errors.push(new DataError('error loading drone', drone));
+        }
+        return null;
+    }
+    validateDroneData(drone) {
+        let requiredProps = 'License Model airTimeHours Base'.split(' ');
+        let hasErrors = false;
+        
+        for (let field of requiredProps) {
+            if (!drone[field]) {
+                this.errors.push(new DataError(`invalid field ${field}`, drone));
+                hasErrors = true;
+            }
+        }
+        if (Number.isNaN(Number.parseFloat(drone.airTimeHours))) {
+            this.errors.push(new DataError('invalid Air hours', drone));
+            hasErrors = true;
+        }
+        return !hasErrors;
+    }
+    
 }
