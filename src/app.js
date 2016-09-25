@@ -4,34 +4,25 @@ import {fleet} from './fleet-data.js';
 import {FleetDataService} from './services/fleetDataService.js';
 
 
-//Drone.maxHeight = 2000;
-//
-//let drone = new Drone('A123', 'Flyer');
-//let drone2 = new Drone('B456', 'Twirl');
-//
-//drone.maxHeight = 5000;
-//        
-//console.log("ID: " + drone.id + " is called " + drone.name);
-//console.log("ID: " + drone2.id + " is called " + drone2.name);
-//console.log(Drone.maxHeight);
-//console.log(drone.maxHeight);
-//
-//drone.fly();
-//drone2.fly();
-
 let dataService = new FleetDataService();
 dataService.loadData(fleet);
 
-console.log(dataService.cars);
+//let car = dataService.getCarByLicense('AT9900');
 
-//let c = new Car('A123');
-//let drone = new Drone('A123', 'Flyer');
-//
-//console.log("ID: " + drone.id + " is called " + drone.name);
-//
-//console.log(c.licenseNum);
-//console.log(c.gpsEnabled);
-//
-//Car.getCompanyName();
+//let cars = dataService.getCarsSortedByLicense();
 
+//let cars = dataService.filterCarsByMake('e');
 
+let cars = dataService.getCarsSortedByLicense();
+
+for (let car of cars)
+     console.log(car.license);
+
+for (let car of cars)
+    console.log(car.make);
+    
+for (let e of dataService.errors)
+    console.log(e);
+
+let car = dataService.getCarByLicense('AT9900');
+console.log(car);
