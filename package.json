@@ -11,6 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "es6-module-loader": "1.2.0",
+    "jquery": "^3.1.1",
+    "material-design-lite": "^1.2.1",
+    "systemjs": "^0.19.38",
     "traceur": "0.0.108"
   },
   "devDependencies": {
